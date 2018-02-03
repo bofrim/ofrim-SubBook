@@ -1,5 +1,7 @@
 package com.ofrim.ofrim_subbook;
 
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -47,12 +49,22 @@ public class Subscription {
         return this.startDate;
     }
 
+    public String getStartDateFormattedString() {
+        SimpleDateFormat dateFormat =  new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(this.startDate);
+    }
+
     public void setStartDate(Date date) {
         this.startDate = date;
     }
 
     public Double getMonthlyCharge() {
         return this.monthlyCharge;
+    }
+
+    public String getMonthlyChargeFormattedString() {
+        NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
+        return moneyFormat.format(this.monthlyCharge);
     }
 
     public void setMonthlyCharge(Double charge) {
