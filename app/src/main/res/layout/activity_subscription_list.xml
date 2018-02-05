@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="8dp"
     android:paddingRight="8dp">
 
-    <Button
-        android:id="@+id/new_sub"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="146dp"
+        android:layout_height="150dp"
         android:layout_weight="1"
-        android:text="@string/new_subscription" />
+        android:orientation="horizontal">
 
-    <ListView android:id="@android:id/list"
+        <Button
+            android:id="@+id/new_sub_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/new_subscription" />
+
+        <Button
+            android:id="@+id/clear_button"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Clear" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
         android:layout_weight="1"
-        android:drawSelectorOnTop="false"/>
+        android:background="#FFFFFF"
+        android:drawSelectorOnTop="false" />
 
 </LinearLayout>

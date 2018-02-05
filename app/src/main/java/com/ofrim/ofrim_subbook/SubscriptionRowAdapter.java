@@ -7,21 +7,30 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
- * Created by bradofrim on 2018-02-03.
+ * Custom row adapter for subscription
  */
 
 public class SubscriptionRowAdapter extends ArrayAdapter<Subscription> {
 
     private final Context context;
-    private final Subscription[] subscriptions;
+    private final ArrayList<Subscription> subscriptions;
 
-    public SubscriptionRowAdapter(Context context, Subscription[] subscriptions) {
+    public SubscriptionRowAdapter(Context context, ArrayList<Subscription> subscriptions) {
         super(context, -1, subscriptions);
         this.context = context;
         this.subscriptions = subscriptions;
     }
 
+    /**
+     * Return a view for a specific row
+     * @param position position in subscription list
+     * @param convertView
+     * @param parent
+     * @return
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Inflate the layout for the row
@@ -34,10 +43,20 @@ public class SubscriptionRowAdapter extends ArrayAdapter<Subscription> {
         TextView rowDate = subscriptionRow.findViewById(R.id.sub_row_date);
 
         // Set the values of the TextViews
-        rowName.setText(subscriptions[position].getName());
-        rowAmount.setText(subscriptions[position].getMonthlyChargeFormattedString());
-        rowDate.setText(subscriptions[position].getStartDateFormattedString());
+        rowName.setText(subscriptions.get(position).getName());
+        rowAmount.setText(subscriptions.get(position).getMonthlyChargeFormattedString());
+        rowDate.setText(subscriptions.get(position).getStartDateFormattedString());
 
         return subscriptionRow;
+    }
+
+    /**
+     * Get item from the subscription list
+     * @param position position in the subscription list
+     * @return
+     */
+    @Override
+    public Subscription getItem(int position) {
+        return subscriptions.get(position);
     }
 }
