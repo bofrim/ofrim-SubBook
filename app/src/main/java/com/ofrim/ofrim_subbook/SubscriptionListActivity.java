@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 /**
@@ -55,6 +58,7 @@ public class SubscriptionListActivity extends ListActivity {
         super.onStart();
 
         loadSubscriptions();
+        updateTotalCharge();
         Subscription returningSubscription = (Subscription) getIntent().getSerializableExtra("subscription");
         Boolean deleteSubscription = getIntent().getBooleanExtra("delete", false);
         int positionIndex = getIntent().getIntExtra("index", -2);
@@ -83,6 +87,7 @@ public class SubscriptionListActivity extends ListActivity {
         getIntent().putExtra("index", -2); // Ensure the same intent won't be read again
         this.subscriptionArrayAdapter.notifyDataSetChanged();
         saveSubscriptions();
+        updateTotalCharge();
     }
 
     /**
@@ -94,7 +99,9 @@ public class SubscriptionListActivity extends ListActivity {
         getIntent().putExtra("index", -2); // Ensure the same intent won't be read again
         this.subscriptionArrayAdapter.notifyDataSetChanged();
         saveSubscriptions();
+        updateTotalCharge();
     }
+
 
     /**
      * Load subscription objects from a file
@@ -157,6 +164,8 @@ public class SubscriptionListActivity extends ListActivity {
                 subscriptions.clear();
                 saveSubscriptions();
                 subscriptionArrayAdapter.notifyDataSetChanged();
+                saveSubscriptions();
+                updateTotalCharge();
             }
         });
     }
@@ -205,5 +214,33 @@ public class SubscriptionListActivity extends ListActivity {
         Gson gson = new Gson();
         gson.toJson(subscriptions, out);
         out.flush();
+    }
+
+    /**
+     * Update the total charge
+     */
+    private void updateTotalCharge() {
+        Double total = calculateTotalSubscriptionAmount();
+        setTotalText(total);
+    }
+
+    /**
+     * Sum up the monthly subscription amounts
+     */
+    private Double calculateTotalSubscriptionAmount() {
+        Double total = new Double(0);
+        for(Subscription subscription: subscriptions) {
+            total += subscription.getMonthlyCharge();
+        }
+        return total;
+    }
+
+    /**
+     * Set the total text as a currency value
+     */
+    private void setTotalText(Double amount) {
+        TextView totalLabel = findViewById(R.id.total_text);
+        NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
+        totalLabel.setText(moneyFormat.format(amount));
     }
 }

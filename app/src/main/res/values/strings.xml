@@ -11,4 +11,5 @@
     <string name="subscription_comment_hint">Comment</string>
     <string name="save_button">Save</string>
     <string name="delete_button">Delete</string>
+    <string name="total">Total</string>
 </resources>
